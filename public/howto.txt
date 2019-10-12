@@ -1,0 +1,91 @@
+<| Wasp |>
+
+Cell-based mini golfing language
+
+Command list:
+    ;>      Create a variable (variable must be set using the next token)
+    ;<      Destroy the current variable
+
+    _X|     Access an artifact at index X
+    @X|     Access a global at index X
+
+    $       reference the current variable to use in an operation
+
+    -       Decrement the current variable
+    +       Increment the current variable
+
+    $++     Increment the current variable using the preceding token
+    $--     Decrement the current variable using the preceding token
+
+    [>]     Increment the selected variable index, if used in the right side of an operation, it is used as a reference instead
+    [<]     Decrement the selected variable index, if used in the right side of an operation, it is used as a reference instead
+
+    ;>(XX)  Create a varaible as a function with XX contents
+    *       Call the current function
+
+    !       Print the preceding token (with a new line -- "\n" added)
+    !!      Print the preceding token (without a new line -- no "\n")
+    
+    #       Start/end an if statement, using the preceding token as the run condition (runs if current variable meets operation requirements)
+    ##      Start/end a not if statement, runs if the operation requirements are not met
+
+    /       Restarts the current context (restarts the function if in a function, restarts all code if not in a function)
+    //      End the program (any text after this is not read, can be used for comments etc)
+
+    ^       Start/end a loop (runs until loop requirements are met -- like a 'do-until' loop)
+
+    '       The mutliplication operator
+    "       The division operator
+    ~       The distance operator (absolute value of '$ - token')
+
+	''		The repeat operator (repeats left side the number of times that the right side -- right side must be number)
+	
+    %       The ID operator (get the ID '0xXXXXXXX' of the current variable)
+	
+Globals (built-in variables)
+0.	true
+1.	false
+2.  0
+3.	1 
+4.	10 
+5.	" "
+6.	"\n" 
+7.	","
+8.	-1
+9.	10
+10.	2
+
+Examples:
+	
+ Example 1 -- Staircase
+	Artifacts:
+	10
+	#
+	
+	Code:
+	;>@2|;>_0|;>_1|;>(?[>]$-[<]$+;>@5|[<<<]##@3|[>>>]$'[<<<]#?[>>>>]!!$;>_1|$'[<<<<<]!$;<;<[<<]##@2|/#)*$
+	
+	Link:
+	https://wasp-compiled.firebaseapp.com/?;%3E@2|;%3E_0|;%3E_1|;%3E(?[%3E]$-[%3C]$+;%3E@5|[%3C%3C%3C]##@3|[>>>]$'[<<<]#?[>>>>]!!$;>_1|$'[<<<<<]!$;<;<[<<]##@2|/#)*$&10,#
+	
+ Example 2 -- Even or odd
+	Artifacts (try 8 and 9):
+	9
+	
+	Code:
+	;>_0|;>(?#@8|!@3|//##@2|!@2|//#$-$-/)*$
+	
+	Link:
+	https://wasp-compiled.firebaseapp.com/?;%3E_0|;%3E(?#@8|!@3|//##@2|!@2|//#$-$-/)*$&9
+	
+ Example 3 -- N squared (literally)
+	Artifacts:
+	12
+	
+	Code:
+	;>_0|;>_0|$-;>_0|;>=_0|[<]$'[>]$--[>]$--[>];>_0|$''_0|!$?#@3|//#;>(?[>]$-!!_0|;>@5|$''[<<<<]!!$?!$[>>>>>>];<?[>]##@3|/#)?##@10|[>>>>>]*$#?[>>>>]!$
+	
+	Link:
+	https://wasp-compiled.firebaseapp.com/?;%3E_0|;%3E_0|$-;%3E_0|;%3E=_0|[%3C]$%27[%3E]$--[%3E]$--[%3E];%3E_0|$%27%27_0|!$?#@3|//#;>(?[>]$-!!_0|;>@5|$''[<<<<]!!$?!$[>>>>>>];<?[>]##@3|/#)?##@10|[>>>>>]*$#?[>>>>]!$&12
+	
+	

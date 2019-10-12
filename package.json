@@ -1,0 +1,21 @@
+{
+  "name": "wasp",
+  "version": "1.0.0",
+  "description": "Wasp code golfing language",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/Jaggler3/wasp"
+  },
+  "keywords": [
+    "wasp"
+  ],
+  "author": "Martin Darazs",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
