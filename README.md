@@ -94,7 +94,7 @@ Globals (built-in variables)
 ```
 
 ## Tutorials
-Refer to the `public/howto.txt` for example Wasp scripts.
+Refer to the `public/examples.txt` for example Wasp scripts.
 
 # License
 MIT

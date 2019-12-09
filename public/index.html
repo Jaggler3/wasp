@@ -5,41 +5,53 @@
 		<link type="text/css" rel="stylesheet" href="style.css"/>
 	</head>
 	<body>
-		<div id="info">
-			<pre class="pid">WASP | </pre>
-			<pre><a id="tutref" href="howto.txt">Tutorial</a></pre>
-			<pre class="pid"> | Version: 0.6.0 | Author: Martin Darazs |</pre>
-		</div>
-		<br/>
-		<a id="sharelink"></a>
+		<p id="title"><strong>WASP</strong>&NonBreakingSpace;<span id="version">v1.0</span></p>
+
 		<div id="top">
-			<div id="as" class="bxs">
-				<p class="mt" >Artifacts</p>
-				<textarea id="artifacts"></textarea>
-			</div>
+			<a href="https://github.com/Jaggler3/wasp#documentation" target="_blank">Tutorial</a>
+			<a href="https://github.com/Jaggler3/wasp" target="_blank">GitHub</a>
+			<a href="https://github.com/Jaggler3/wasp" target="_blank">GitHub</a>
+			<p class="right">Created by Martin Darazs</p>
 		</div>
-		<div id="is" class="bxs">
-	    <p id="_in" class="mt" >Input<br/>
-		<button class="ab" onclick="atf('!')">!</button>
-		<button class="ab" onclick="atf('$')">$</button>
-		<button class="ab" onclick="atf(';')">;</button>
-		<button class="ab" onclick="atf('>')">&gt;</button>
-		<button class="ab" onclick="atf('<')">&lt;</button>
-		<button class="ab" onclick="atf('+')">+</button>
-		<button class="ab" onclick="atf('[')">[</button>
-		<button class="ab" onclick="atf(']')">]</button>
-		<button class="ab" onclick="atf('_')">_</button>
-		<button class="ab" onclick="atf('@')">@</button>
-		<button class="ab" onclick="atf('|')">|</button><br/>
-		<button class="ab" onclick="ml()">&lt;&lt;</button>
-		<button class="ab" onclick="mr()">&gt;&gt;</button>
-		<button class="ab" onclick="bs()">&lt;=</button>
-		<button class="ab" onclick="i_cl()">[&lt;=</button></p>
-	    <input id="in" style="font-family:monospace;width:50%" type="textfield"/>
 		
-		<button onclick="b_ie()">Execute</button>
-		<button onclick="b_cl()">Clear</button>
-		<pre id="out" style="font-family:monospace"></pre>
+		<br/>
+		
+		<section>
+			<div id="sharelink-container">
+				<p>Link:&nbsp;<a id="sharelink"></a></p>
+			</div>
+
+			<p class="section-title">Artifacts</p>
+			<textarea id="artifacts"></textarea>
+			
+			<br/><br/>
+			<p class="section-title">Input</p>
+			
+			<button class="input-character" onclick="atf('!')">!</button>
+			<button class="input-character" onclick="atf('$')">$</button>
+			<button class="input-character" onclick="atf(';')">;</button>
+			<button class="input-character" onclick="atf('>')">&gt;</button>
+			<button class="input-character" onclick="atf('<')">&lt;</button>
+			<button class="input-character" onclick="atf('+')">+</button>
+			<button class="input-character" onclick="atf('[')">[</button>
+			<button class="input-character" onclick="atf(']')">]</button>
+			<button class="input-character" onclick="atf('_')">_</button>
+			<button class="input-character" onclick="atf('@')">@</button>
+			<button class="input-character" onclick="atf('|')">|</button><br/>
+			<button class="input-character" onclick="ml()">&lt;&lt;</button>
+			<button class="input-character" onclick="mr()">&gt;&gt;</button>
+			<button class="input-character" onclick="bs()">&lt;=</button>
+			<button class="input-character" onclick="i_cl()">[&lt;=</button>
+
+			<br/>
+			
+			<div id="input-container">
+				<input id="in" type="textfield"/>
+				<button onclick="b_ie()">Execute</button>
+				<button onclick="b_cl()">Clear</button>
+			</div>
+			
+			<pre id="out" style="font-family:monospace"></pre>
 		</div>
 		<script type="text/javascript" src="compiler.js"></script>
 	</body>
