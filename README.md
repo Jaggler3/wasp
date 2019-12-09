@@ -82,7 +82,7 @@ $--     Subtract the preceeding token from the current variable
 Globals (built-in variables)
 0.	true
 1.	false
-2.  0
+2.	0
 3.	1 
 4.	10 
 5.	" "
