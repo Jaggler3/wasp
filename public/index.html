@@ -1,56 +1,55 @@
-﻿
-<html>
+﻿<!DOCTYPE html>
+<html lang="en">
 	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>WC</title>
 		<link type="text/css" rel="stylesheet" href="style.css"/>
+		<link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<p id="title"><strong>WASP</strong>&NonBreakingSpace;<span id="version">v1.0</span></p>
-
-		<div id="top">
-			<a href="https://github.com/Jaggler3/wasp#documentation" target="_blank">Tutorial</a>
-			<a href="https://github.com/Jaggler3/wasp" target="_blank">GitHub</a>
-			<a href="https://github.com/Jaggler3/wasp/blob/master/examples.md" target="_blank">Examples</a>
-			<p class="right">Created by Martin Darazs</p>
+		<div id="header">
+			<p id="title">Wasp</p>
+			<p id="tutref"><a href="howto.txt" target="_blank">Cheatsheet</a></p>
+			<p id="tagline">(v1.0) Made by Martin Darazs</p>
 		</div>
-		
 		<br/>
+
+		<p id="share">Share! <a id="sharelink">...</a></p>
 		
-		<section>
-			<div id="sharelink-container">
-				<p>Link:&nbsp;<a id="sharelink"></a></p>
-			</div>
-
-			<p class="section-title">Artifacts</p>
+		<div id="artifact-container" class="bxs">
+			<p class="container-title" >Artifacts</p>
+			<p>Enter artifacts (inputs of data) separated by line</p>
 			<textarea id="artifacts"></textarea>
-			
-			<br/><br/>
-			<p class="section-title">Input</p>
-			
-			<button class="input-character" onclick="atf('!')">!</button>
-			<button class="input-character" onclick="atf('$')">$</button>
-			<button class="input-character" onclick="atf(';')">;</button>
-			<button class="input-character" onclick="atf('>')">&gt;</button>
-			<button class="input-character" onclick="atf('<')">&lt;</button>
-			<button class="input-character" onclick="atf('+')">+</button>
-			<button class="input-character" onclick="atf('[')">[</button>
-			<button class="input-character" onclick="atf(']')">]</button>
-			<button class="input-character" onclick="atf('_')">_</button>
-			<button class="input-character" onclick="atf('@')">@</button>
-			<button class="input-character" onclick="atf('|')">|</button><br/>
-			<button class="input-character" onclick="ml()">&lt;&lt;</button>
-			<button class="input-character" onclick="mr()">&gt;&gt;</button>
-			<button class="input-character" onclick="bs()">&lt;=</button>
-			<button class="input-character" onclick="i_cl()">[&lt;=</button>
+		</div>
 
+		<div id="input-container" class="bxs">
+			<p class="container-title" >Input</p>
 			<br/>
-			
-			<div id="input-container">
-				<input id="in" type="textfield"/>
-				<button onclick="b_ie()">Execute</button>
-				<button onclick="b_cl()">Clear</button>
+
+			<div id="input-buttons">
+				<button class="input-btn" onclick="atf('!')">!</button>
+				<button class="input-btn" onclick="atf('$')">$</button>
+				<button class="input-btn" onclick="atf(';')">;</button>
+				<button class="input-btn" onclick="atf('>')">&gt;</button>
+				<button class="input-btn" onclick="atf('<')">&lt;</button>
+				<button class="input-btn" onclick="atf('+')">+</button>
+				<button class="input-btn" onclick="atf('[')">[</button>
+				<button class="input-btn" onclick="atf(']')">]</button>
+				<button class="input-btn" onclick="atf('_')">_</button>
+				<button class="input-btn" onclick="atf('@')">@</button>
+				<button class="input-btn" onclick="atf('|')">|</button><br/>
+				<button class="input-btn" onclick="ml()">&DoubleLongLeftArrow;</button>
+				<button class="input-btn" onclick="mr()">&DoubleLongRightArrow;</button>
+				<button class="input-btn" onclick="bs()">&LeftArrow;</button>
+				<button class="input-btn" onclick="i_cl()">&LeftArrowBar;</button></p>
 			</div>
 			
+			<input id="in" type="textfield" value="!_0|"/>
+			
+			<button class="console-action" onclick="b_ie()">Execute</button>
+			<button class="console-action" onclick="b_cl()">Clear</button>
 			<pre id="out" style="font-family:monospace"></pre>
 		</div>
 		<script type="text/javascript" src="compiler.js"></script>

@@ -1,1 +1,0 @@
-dir | rename-item -NewName { $_.Name -replace "_1","" }

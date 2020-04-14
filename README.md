@@ -93,8 +93,19 @@ Globals (built-in variables)
 10.	2
 ```
 
+<<<<<<< HEAD
+# Tutorials and Examples
+Refer to the `public/howto.txt` for example Wasp scripts.
+=======
 ## Tutorials
 Refer to the `public/examples.txt` for example Wasp scripts.
+>>>>>>> origin/master
+
+- [**Example 1 (Staircase)**](https://wasp-compiled.web.app/?;%3E@2|;%3E_0|;%3E_1|;%3E(?[%3E]$-[%3C]$+;%3E@5|[%3C%3C%3C]##@3|[%3E%3E%3E]$'[%3C%3C%3C]#?[%3E%3E%3E%3E]!!$;%3E_1|$'[%3C%3C%3C%3C%3C]!$;%3C;%3C[%3C%3C]##@2|/#)*$&10,#)
+
+- [**Example 2 (Even or odd)**](https://wasp-compiled.web.app/?;%3E_0|;%3E(?#@8|!@3|//##@2|!@2|//#$-$-/)*$&9)
+
+- [**Example 3 (N squared literally)**](https://wasp-compiled.web.app/?;%3E_0|;%3E_0|$-;%3E_0|;%3E=_0|[%3C]$%27[%3E]$--[%3E]$--[%3E];%3E_0|$%27%27_0|!$?#@3|//#;>(?[>]$-!!_0|;>@5|$''[<<<<]!!$?!$[>>>>>>];<?[>]##@3|/#)?##@10|[>>>>>]*$#?[>>>>]!$&12)
 
 # License
 MIT

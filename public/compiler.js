@@ -1,13 +1,13 @@
 ﻿var _artifacts = ["Hello World!"];
 
 var _globals = [
-	true, 
-	false, 
-	0, 
-	1, 
-	10, 
-	" ", 
-	"\n", 
+	true,
+	false,
+	0,
+	1,
+	10,
+	" ",
+	"\n",
 	",",
 	-1,
 	10,
@@ -94,7 +94,7 @@ function bs()
 	var cp = inval.selectionStart;
 	inval.value = inval.value.substring(0, cp - 1) + inval.value.substring(cp, inval.value.length);
 	inval.setSelectionRange(cp, cp);
-	inval.focus(); 
+	inval.focus();
 }
 
 function i_cl()
@@ -171,7 +171,7 @@ function ie(script, ed = {})
     		{
     		    lc = false;
     		    runLoop(right);
-    		} else //(we are setting a var) 
+    		} else //(we are setting a var)
     		{
     			_vars[INDEX].value = right;
     		}
@@ -216,10 +216,10 @@ function ie(script, ed = {})
     		return tmp;
 	    }
 	};
-	
+
 	var s = script.toString().split("");
 	for(var i = 0; i < s.length; i++)
-	{	
+	{
 		var c = s[i];
 		                                                    //1  2     3     4     5     6     7     8    9    10  11  12  13  14  15
 		//console.log(i + "|" + c + "|\t{" + INDEX  + "}[" + [_rs, prnt, op_a, op_m, op_d, op_t, op_b, idg, coi, hi, si, fi, fc, nl, lc].map(Number).join(" ") + "]");
@@ -288,7 +288,7 @@ function ie(script, ed = {})
 		        fc = false;
 		        var pi = INDEX;
 		        ie(_vars[INDEX].value, {vars: _vars, index: INDEX});
-		        INDEX = pi; 
+		        INDEX = pi;
 		    } else if(_rs)
 		    {
 		        InterUtils.operation(idg ? _vars[INDEX].ID : (lov ? (_vars[INDEX].value + "").length : _vars[INDEX].value));
@@ -393,7 +393,7 @@ function ie(script, ed = {})
 			console.log(_vars.length);
 		}
 	}
-	
+
 	return {vars: _vars, index: INDEX};
 }
 

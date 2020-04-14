@@ -40,8 +40,6 @@ function iteration
 	i++;
 	n--;
 	
-	//auto garbage collect?
-	
 	ifn(n == 0)
 	{
 		call iteration;
