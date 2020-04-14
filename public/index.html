@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>WC</title>
+		<title>Wasp - Code Golfing Language</title>
 		<link type="text/css" rel="stylesheet" href="style.css"/>
 		<link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
 	</head>
@@ -29,27 +29,27 @@
 			<br/>
 
 			<div id="input-buttons">
-				<button class="input-btn" onclick="atf('!')">!</button>
-				<button class="input-btn" onclick="atf('$')">$</button>
-				<button class="input-btn" onclick="atf(';')">;</button>
-				<button class="input-btn" onclick="atf('>')">&gt;</button>
-				<button class="input-btn" onclick="atf('<')">&lt;</button>
-				<button class="input-btn" onclick="atf('+')">+</button>
-				<button class="input-btn" onclick="atf('[')">[</button>
-				<button class="input-btn" onclick="atf(']')">]</button>
-				<button class="input-btn" onclick="atf('_')">_</button>
-				<button class="input-btn" onclick="atf('@')">@</button>
-				<button class="input-btn" onclick="atf('|')">|</button><br/>
-				<button class="input-btn" onclick="ml()">&DoubleLongLeftArrow;</button>
-				<button class="input-btn" onclick="mr()">&DoubleLongRightArrow;</button>
-				<button class="input-btn" onclick="bs()">&LeftArrow;</button>
-				<button class="input-btn" onclick="i_cl()">&LeftArrowBar;</button></p>
+				<button class="input-btn" onclick="insertInput('!')">!</button>
+				<button class="input-btn" onclick="insertInput('$')">$</button>
+				<button class="input-btn" onclick="insertInput(';')">;</button>
+				<button class="input-btn" onclick="insertInput('>')">&gt;</button>
+				<button class="input-btn" onclick="insertInput('<')">&lt;</button>
+				<button class="input-btn" onclick="insertInput('+')">+</button>
+				<button class="input-btn" onclick="insertInput('[')">[</button>
+				<button class="input-btn" onclick="insertInput(']')">]</button>
+				<button class="input-btn" onclick="insertInput('_')">_</button>
+				<button class="input-btn" onclick="insertInput('@')">@</button>
+				<button class="input-btn" onclick="insertInput('|')">|</button><br/>
+				<button class="input-btn" onclick="cursorLeft()">&DoubleLongLeftArrow;</button>
+				<button class="input-btn" onclick="cursorRight()">&DoubleLongRightArrow;</button>
+				<button class="input-btn" onclick="backspace()">&LeftArrow;</button>
+				<button class="input-btn" onclick="inputClear()">&LeftArrowBar;</button></p>
 			</div>
 			
 			<input id="in" type="textfield" value="!_0|"/>
 			
-			<button class="console-action" onclick="b_ie()">Execute</button>
-			<button class="console-action" onclick="b_cl()">Clear</button>
+			<button class="console-action" onclick="callExecute()">Execute</button>
+			<button class="console-action" onclick="outputClear()">Clear</button>
 			<pre id="out" style="font-family:monospace"></pre>
 		</div>
 		<script type="text/javascript" src="compiler.js"></script>

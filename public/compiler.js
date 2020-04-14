@@ -1,5 +1,11 @@
-﻿var _artifacts = ["Hello World!"];
+﻿// Wasp language implemetation
 
+// Default artifacts
+var _artifacts = [
+	"Hello World!"
+];
+
+// Global variable list
 var _globals = [
 	true,
 	false,
@@ -14,157 +20,163 @@ var _globals = [
 	2
 ];
 
-var Variable = function()
+// Console stream after a script is executed
+var output = "";
+
+var shareLink = ele("sharelink");
+var artifactField = ele("artifacts"), codeField = ele("in");
+
+// Initialize a Variable object with a random ID
+function Variable()
 {
     this.value = undefined;
     this.ID = genID();
     this.isFunction = false;
 };
 
-function genID()
-{
-    var a = "0x", b = "ABCDEFHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz12345";
-    for(var i = 0; i < 6; i++)
-    {
-        a += b.charAt(Math.floor(Math.random() * b.length));
-    }
-    return a;
-}
-
-function getLink()
-{
-	return document.location.origin + "/?" + inval.value + "&" + encodeURI(artl.value.split("\n").join(","));
-}
-
-var shlnk = ele("sharelink");
+// interval to update the share link
 setInterval(function() {
-	var res = getLink();
-	shlnk.innerHTML = res;
-	shlnk.setAttribute("href", res);
+	shareLink.setAttribute("href", (shareLink.innerHTML = getLink()));
 }, 750);
 
-var artl, inval;
-artl = ele("artifacts");
-inval = ele("in");
+// parse url for artifacts and code
 if(document.location.toString().indexOf("?") != -1)
 {
 	var dls = document.location.toString();
 	var ress = dls.substring(dls.indexOf("?") + 1);
-	inval.value = decodeURI(ress).split("&")[0];
-	artl.value = decodeURI(ress).split("&")[1].split(",").join("\n");
+	codeField.value = decodeURI(ress).split("&")[0];
+	artifactField.value = decodeURI(ress).split("&")[1].split(",").join("\n");
 } else
 {
-	artl.value = _artifacts.join("\n");
+	artifactField.value = _artifacts.join("\n");
 }
 
-inval.onkeypress = function(key)
+// Generate a variable ID
+function genID()
+{
+    let id = "0x", range = "ABCDEFHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz12345";
+    for(let i = 0; i < 6; i++)
+    {
+        id += range.charAt(Math.floor(Math.random() * range.length));
+    }
+    return id;
+}
+
+// Creates a link to the current set of artifacts and code for others to see
+function getLink()
+{
+	return document.location.origin + "/?" + codeField.value + "&" + encodeURI(artifactField.value.split("\n").join(","));
+}
+
+// check for Enter key press to execute code
+codeField.onkeypress = function(key)
 {
     if(event.keyCode == 13) { b_ie(); }
 };
 
-function atf(char)
+// Add char to input code
+function insertInput(char)
 {
-	inval.value += char;
-	inval.focus();
+	codeField.value += char;
+	codeField.focus();
 }
 
-function ic(str)
+// Move the input code cursor left
+function cursorLeft()
 {
-    inval.value = str;
-    inval.setSelectionRange(inval.value.length, inval.value.length);
-    inval.focus();
+	if(codeField.selectionStart === 0) { return; }
+	codeField.setSelectionRange(codeField.selectionStart - 1, codeField.selectionStart - 1);
+	codeField.focus();
 }
 
-function ml()
+// Move the input code cursor right
+function cursorRight()
 {
-	if(inval.selectionStart === 0) { return; }
-	inval.setSelectionRange(inval.selectionStart - 1, inval.selectionStart - 1);
-	inval.focus();
+	if(codeField.selectionStart == codeField.length - 1) { return; }
+	codeField.setSelectionRange(codeField.selectionStart + 1, codeField.selectionStart + 1);
+	codeField.focus();
 }
 
-function mr()
+// Delete a char from the input code at the cursor
+function backspace()
 {
-	if(inval.selectionStart == inval.length - 1) { return; }
-	inval.setSelectionRange(inval.selectionStart + 1, inval.selectionStart + 1);
-	inval.focus();
+	var cp = codeField.selectionStart;
+	codeField.value = codeField.value.substring(0, cp - 1) + codeField.value.substring(cp, codeField.value.length);
+	codeField.setSelectionRange(cp, cp);
+	codeField.focus();
 }
 
-function bs()
+// Clear all code from the input
+function inputClear()
 {
-	var cp = inval.selectionStart;
-	inval.value = inval.value.substring(0, cp - 1) + inval.value.substring(cp, inval.value.length);
-	inval.setSelectionRange(cp, cp);
-	inval.focus();
+	codeField.value = "";
+	codeField.focus();
 }
 
-function i_cl()
-{
-	inval.value = "";
-	inval.focus();
-}
-
-function b_cl()
+// Clear all logs of executed code
+function outputClear()
 {
     output = "";
 }
-function b_ie()
+
+// Parse artifacts and execut input code
+function callExecute()
 {
-    _artifacts = artl.value.split("\n");
-    for(var i = 0; i < _artifacts.length; i++)
+    _artifacts = artifactField.value.split("\n");
+    for(let i = 0; i < _artifacts.length; i++)
     {
         if(!isNaN(_artifacts[i]))
         {
             _artifacts[i] = Number(_artifacts[i]);
         }
-    }
-    ie(inval.value.toString());
+	}
+    execute(codeField.value);
 }
 
-function ie(script, ed = {})
+// Execute Wasp code!
+function execute(script, context = {})
 {
-    if(ed.index === undefined)
-    {
-        //.cookie = "val=" + encodeURI(inval.value) + ";";
-        //console.log(document.cookie);
-    }
-	var _vars = ed.vars || [];
-	var INDEX = ed.index === undefined ? -1 : ed.index;
-	var _rs = false; //right side
-	var prnt = false; //print
-	var op_a = false, op_m = false, op_d = false, op_t = false, op_b = false; //addition / minus / distance / multiply / break(divide) operations
-	var idg = false; //id get
-	var lov = false; //length operator value
-	var coi = false; //close-out-if
-	var hi = false, si = false, fi = false; //(have/start/false) if
-	var fc = false; //function
-	var nl = true; //new line
-	var lc = false; //expecting loop condition
-	var ld = "", lcd = ""; //loop (data/condition data
-	var dt = false; //double times-symbols (meaning '')
-	var lst = -1;	//last index
-	var InterUtils = InterUtils || {
+	let vars = context.vars || [];
+	let index = context.index === undefined ? -1 : context.index;
+	let isRightSide = false; //right side
+	let log = false; //print
+	let op_a = false, op_m = false, op_d = false, op_t = false, op_b = false; //addition / minus / distance / multiply / break(divide) operations
+	let idg = false; //id get
+	let lov = false; //length operator value
+	let coi = false; //close-out-if
+	let hi = false, si = false, fi = false; //(have/start/false) if
+	let fc = false; //function
+	let nl = true; //new line
+	let lc = false; //expecting loop condition
+	let ld = "", lcd = ""; //loop (data/condition data
+	let dt = false; //double times-symbols (meaning '')
+	let lst = -1;	//last index
+	var InterpreterUtils = InterpreterUtils || {
 	    runLoop: function(condition) {
-    	    var led = ie(ld, {vars: _vars, index: INDEX});
-    	    while(led.vars[led.index].value != condition) { led = ie(ld, {vars: _vars, index: INDEX}); }
+    	    let lastContext = execute(ld, {vars: vars, index: index});
+			while(lastContext.vars[lastContext.index].value != condition)
+			{
+				execute(ld, {vars: vars, index: index});
+			}
 	    },
 	    operation: function(right) {
-	        if(prnt)
+	        if(log)
     		{
     			outstr(right, nl);
-    			prnt = false;
-    		} else if(InterUtils.ol(right)) {
+    			log = false;
+    		} else if(InterpreterUtils.ol(right)) {
     		} else if(si)
     		{
     		    si = false;
     		    if(op_d)
     		    {
                     op_d = false;
-                    //console.log(_vars[INDEX].value - right);
-                    coi = _vars[INDEX].value - right <= 0;
+                    //console.log(vars[index].value - right);
+                    coi = vars[index].value - right <= 0;
                     coi = fi ? !coi : coi;
     		    } else
     		    {
-    		        coi = _vars[INDEX].value !== right;
+    		        coi = vars[index].value !== right;
     		        coi = fi ? !coi : coi;
     		    }
             } else if(lc)
@@ -173,12 +185,12 @@ function ie(script, ed = {})
     		    runLoop(right);
     		} else //(we are setting a var)
     		{
-    			_vars[INDEX].value = right;
+    			vars[index].value = right;
     		}
 	    },
 	    ol: function(right) {
-    	    var tv = _vars[INDEX].value;
-    	    if(typeof tv === "undefined") { _vars[INDEX].value = right; return true; }
+    	    var tv = vars[index].value;
+    	    if(typeof tv === "undefined") { vars[index].value = right; return true; }
     	    var edc = 0;
     	    if(op_t)
     	    {
@@ -201,36 +213,36 @@ function ie(script, ed = {})
     	            edc = 0;
     	        }
     	    }
-    	    if(typeof _vars[INDEX].value == "number" && !dt) {
-    	        _vars[INDEX].value += op_a ? right : (op_m ? -right : 0);
-    	        _vars[INDEX].value *= op_t ? right : (op_b ? 1/right : 1);
+    	    if(typeof vars[index].value == "number" && !dt) {
+    	        vars[index].value += op_a ? right : (op_m ? -right : 0);
+    	        vars[index].value *= op_t ? right : (op_b ? 1/right : 1);
     	    } else {
-    	        _vars[INDEX].value = right > 0 ? _vars[INDEX].value.toString().repeat(op_t ? right : 1) : "";
+    	        vars[index].value = right > 0 ? vars[index].value.toString().repeat(op_t ? right : 1) : "";
 				dt = false;
     	    }
     	    if(edc !== 0)
     	    {
-    	        _vars[INDEX].value = Number(_vars[INDEX].value.toFixed(edc).toString());
+    	        vars[index].value = Number(vars[index].value.toFixed(edc).toString());
     	    }
     	    var tmp = op_a || op_m || op_t || op_b; op_a = op_m = op_t = op_b = false;
     		return tmp;
 	    }
 	};
 
-	var s = script.toString().split("");
-	for(var i = 0; i < s.length; i++)
+	let s = script.toString().split("");
+	for(let i = 0; i < s.length; i++)
 	{
-		var c = s[i];
+		let c = s[i];
 		                                                    //1  2     3     4     5     6     7     8    9    10  11  12  13  14  15
-		//console.log(i + "|" + c + "|\t{" + INDEX  + "}[" + [_rs, prnt, op_a, op_m, op_d, op_t, op_b, idg, coi, hi, si, fi, fc, nl, lc].map(Number).join(" ") + "]");
+		//console.log(i + "|" + c + "|\t{" + index  + "}[" + [isRightSide, log, op_a, op_m, op_d, op_t, op_b, idg, coi, hi, si, fi, fc, nl, lc].map(Number).join(" ") + "]");
 		if(coi && c !== "#") { continue; }
-		if(c === "?") { INDEX = 0; continue; };
+		if(c === "?") { index = 0; continue; };
 		if(c === "/" && s[i + 1] === '/') //exit, also provides comments to end of input
 		{
 		    return;
 		} else if(c === "/") //restart function/program
 		{
-		    ie(script, {vars: _vars, index: INDEX});
+		    execute(script, {vars: vars, index: index});
 		} else if(c === "^") //loop
 		{
 		    ld = script.substring(++i, script.indexOf("|", i));
@@ -257,83 +269,83 @@ function ie(script, ed = {})
 			if(s[i + 1] === ">") //create new variable
 			{
 			    var nv = new Variable();
-				_vars.push(nv);
-				_rs = true;
-				INDEX = _vars.length - 1;
+				vars.push(nv);
+				isRightSide = true;
+				index = vars.length - 1;
 				i++;
 			} else if(s[i + 1] === "<") //delete current variable
 			{
-			    _vars.splice(INDEX, 1);
-			    INDEX += (INDEX == 0 ? 0 : -1);
+			    vars.splice(index, 1);
+			    index += (index == 0 ? 0 : -1);
 				i++;
 			}
 		} else if(c ==="@") //accessing globals
 		{
 			var id = script.substring(++i, script.indexOf("|", i));
 		    i += id.length;
-			InterUtils.operation(lov ? (_globals[Number(id)] + "").length : _globals[Number(id)]);
-			_rs = false;
+			InterpreterUtils.operation(lov ? (_globals[Number(id)] + "").length : _globals[Number(id)]);
+			isRightSide = false;
 			lov = idg = false;
 		} else if(c === "_") //accessing an artifact
 		{
 			var id = script.substring(++i, script.indexOf("|", i));
 		    i += id.length;
-			InterUtils.operation(lov ? (_artifacts[Number(id)] + "").length : _artifacts[Number(id)]);
-			_rs = false;
+			InterpreterUtils.operation(lov ? (_artifacts[Number(id)] + "").length : _artifacts[Number(id)]);
+			isRightSide = false;
 			lov = idg = false;
 		} else if(c === "$") //accessing the current variable
 		{
 		    if(fc)
 		    {
 		        fc = false;
-		        var pi = INDEX;
-		        ie(_vars[INDEX].value, {vars: _vars, index: INDEX});
-		        INDEX = pi;
-		    } else if(_rs)
+		        var pi = index;
+		        execute(vars[index].value, {vars: vars, index: index});
+		        index = pi;
+		    } else if(isRightSide)
 		    {
-		        InterUtils.operation(idg ? _vars[INDEX].ID : (lov ? (_vars[INDEX].value + "").length : _vars[INDEX].value));
+		        InterpreterUtils.operation(idg ? vars[index].ID : (lov ? (vars[index].value + "").length : vars[index].value));
 		        lov = idg = false;
 		    } else
 		    {
 		        if(idg)
     		    {
-    		        InterUtils.operation(_vars[INDEX].ID);
+    		        InterpreterUtils.operation(vars[index].ID);
     		        idg = false;
     		    } else if(lov)
     		    {
-    		        InterUtils.operation((_vars[INDEX].value + "").length);
+    		        InterpreterUtils.operation((vars[index].value + "").length);
     		        lov = false;
     		    } else
     		    {
-    		        _rs = true;
+    		        isRightSide = true;
     		    }
 		    }
 		} else if(c === "+") //increment
 		{
-		    _rs = op_a = s[i + 1] === "+";
+		    isRightSide = op_a = s[i + 1] === "+";
 		    i += op_a ? 1 : 0;
-		    if(typeof _vars[INDEX].value == "number") { _vars[INDEX].value += !op_a ? 1 : 0; }
+		    if(typeof vars[index].value == "number") { vars[index].value += !op_a ? 1 : 0; }
 		} else if(c === "-") //decrement
 		{
-		    _rs = op_m = s[i + 1] === "-";
+		    isRightSide = op_m = s[i + 1] === "-";
 		    i += op_m ? 1 : 0;
-		    if(typeof _vars[INDEX].value == "number") { _vars[INDEX].value -= !op_m ? 1 : 0; }
+		    if(typeof vars[index].value == "number") { vars[index].value -= !op_m ? 1 : 0; }
 		} else if(c === "'") //times
 		{
 			dt = op_t;
-		    _rs = op_t = true;
-		    //if(typeof _vars[INDEX].value == "number") { _vars[INDEX].value *= !op_t ? 1 : 0; }
+		    isRightSide = op_t = true;
+		    //if(typeof vars[index].value == "number") { vars[index].value *= !op_t ? 1 : 0; }
 		} else if(c === "\"") //break (divide)
 		{
-		    _rs = op_b = true;
-		    //if(typeof _vars[INDEX].value == "number") { _vars[INDEX].value /= !op_b ? 1 : 0; }
+		    isRightSide = op_b = true;
+		    //if(typeof vars[index].value == "number") { vars[index].value /= !op_b ? 1 : 0; }
 		} else if(c === "~") //distance
 		{
-		    _rs = op_d = true
+		    isRightSide = op_d = true
 		} else if(c === "!") //print out
 		{
-		    _rs = true;
-			prnt = true;
+		    isRightSide = true;
+			log = true;
 			nl = s[i + 1] !== "!";
 			i += nl ? 0 : 1;
 		} else if(c === "[")
@@ -349,26 +361,26 @@ function ie(script, ed = {})
 				{
 				    if(fc)
 				    {
-				        ie(_vars[INDEX + amt].value, {vars: _vars, index: INDEX});
+				        execute(vars[index + amt].value, {vars: vars, index: index});
 				    } else if(lc)
 				    {
-        			    InterUtils.runLoop(_vars[INDEX + amt].value);
-				        INDEX += amt;
+        			    InterpreterUtils.runLoop(vars[index + amt].value);
+				        index += amt;
                     } else if(op_d && !si)
                     {
-                        _vars[INDEX].value -= _vars[INDEX + amt].value;
-                        _rs = op_d = false;
+                        vars[index].value -= vars[index + amt].value;
+                        isRightSide = op_d = false;
                     } else if((op_d || op_t || op_m || op_a || op_b))
                     {
-                        //console.log(INDEX + amt)
+                        //console.log(index + amt)
 						if(lov)
 						{
-							console.log(INDEX, amt);
+							console.log(index, amt);
 						}
-                        InterUtils.operation(idg ? _vars[INDEX + amt].ID : (lov ? (_vars[INDEX + amt].value + "").length : _vars[INDEX + amt].value));
+                        InterpreterUtils.operation(idg ? vars[index + amt].ID : (lov ? (vars[index + amt].value + "").length : vars[index + amt].value));
                     } else
 				    {
-				        INDEX += amt;
+				        index += amt;
 				    }
 					fc = lc = false;
 					break;
@@ -384,20 +396,19 @@ function ie(script, ed = {})
 		{
 			var func = script.substring(++i, script.indexOf(")", i));
 		    i += func.length;
-			_vars[INDEX].value = func;
-			_vars[INDEX].isFunction = true;
-			_rs = false;
+			vars[index].value = func;
+			vars[index].isFunction = true;
+			isRightSide = false;
 		} else if(c === "*") { fc = true;
 		} else if(c === "&")
 		{
-			console.log(_vars.length);
+			console.log(vars.length);
 		}
 	}
 
-	return {vars: _vars, index: INDEX};
+	return {vars: vars, index: index};
 }
 
-var output = "";
 window.setInterval(function(){ ele("out").innerHTML = output; }, 50);
 function ele(id) { return document.getElementById(id); };
 function outstr (str, nl = true) { output += str + "<br/>".repeat(Number(nl)); }
