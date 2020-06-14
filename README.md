@@ -93,13 +93,8 @@ Globals (built-in variables)
 10.	2
 ```
 
-<<<<<<< HEAD
 # Tutorials and Examples
-Refer to the `public/howto.txt` for example Wasp scripts.
-=======
-## Tutorials
-Refer to the `public/examples.txt` for example Wasp scripts.
->>>>>>> origin/master
+Refer to the `examples.md` for example Wasp scripts.
 
 - [**Example 1 (Staircase)**](https://wasp-compiled.web.app/?;%3E@2|;%3E_0|;%3E_1|;%3E(?[%3E]$-[%3C]$+;%3E@5|[%3C%3C%3C]##@3|[%3E%3E%3E]$'[%3C%3C%3C]#?[%3E%3E%3E%3E]!!$;%3E_1|$'[%3C%3C%3C%3C%3C]!$;%3C;%3C[%3C%3C]##@2|/#)*$&10,#)
 
